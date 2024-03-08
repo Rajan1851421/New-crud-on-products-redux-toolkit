@@ -20,8 +20,9 @@ export const pruductDetails = createSlice({
         error: null
     },
     reducers: {},
-    extraReducers: (builder) => {
-        builder
+    extraReducers: (builder) =>
+     {
+            builder
             // handle fetch product
             .addCase(fetchProduct.pending, (state) => {
                 state.loading = true;
