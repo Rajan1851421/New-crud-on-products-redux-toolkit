@@ -1,12 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchProduct = createAsyncThunk("fetchProduct", async (_, { rejectWithValue }) => {
+export const fetchProduct = createAsyncThunk("fetchProduct", async (search, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`https://dummyjson.com/products`)
+        const response = await axios.get(`https://dummyjson.com/products${search}`)
         return response.data.products;
     } catch (error) {
         return rejectWithValue(error);
+    }
+})
+
+export const searchProduct = createAsyncThunk('searchProduct',async(search,{rejectWithValue})=>{
+    try {
+        const response = await axios.get(`https://dummyjson.com/products/category/${search}`)
+        return response.data.products
+    } catch (error) {
+        return rejectWithValue(error)
     }
 })
 
@@ -36,7 +45,17 @@ export const pruductDetails = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-            // view product by id
+            // search product by name
+            .addCase(searchProduct.pending,(state,action)=>{
+                state.loading=true
+            })
+            .addCase(searchProduct.fulfilled,(state,action)=>{
+                state.products=action.payload;
+            })
+            .addCase(searchProduct.rejected,(state,action)=>{
+                state.loading=false
+                state.error = "Please Try Again";
+            })
 
            
             
