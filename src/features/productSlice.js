@@ -1,37 +1,60 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// Define the async thunk for fetching products
 export const fetchProduct = createAsyncThunk("fetchProduct", async (search, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`https://dummyjson.com/products${search}`)
+        // Check if search is defined and not empty before making the request
+        const url = search ? `https://dummyjson.com/products${search}` : 'https://dummyjson.com/products';
+        const response = await axios.get(url);
         return response.data.products;
     } catch (error) {
-        return rejectWithValue(error);
+        // Return only the relevant error information
+        return rejectWithValue(error.message);
     }
-})
+});
 
-export const searchProduct = createAsyncThunk('searchProduct',async(search,{rejectWithValue})=>{
+// Define the async thunk for login
+export const loginFetch = createAsyncThunk("loginFetch", async ({ username, password }, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`https://dummyjson.com/products/category/${search}`)
-        return response.data.products
+        const response = await fetch('https://dummyjson.com/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username,
+                password
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to login');
+        }
+
+        return response.json();
     } catch (error) {
-        return rejectWithValue(error)
+        return rejectWithValue(error.message);
     }
-})
+});
 
-
-
-export const pruductDetails = createSlice({
+// Define the product slice
+export const productDetails = createSlice({
     name: 'productdetails',
     initialState: {
         products: [],        
+        Token_login: null,
+        buy: [],
+        cart: [],
         loading: false,
         error: null
     },
-    reducers: {},
-    extraReducers: (builder) =>
-     {
-            builder
+    reducers: {
+        clearTokenLogin: (state) => {
+            state.Token_login = null;
+            console.log("Reducers:",state.Token_login);
+        }
+    },
+    extraReducers: (builder) => {
+        builder
             // handle fetch product
             .addCase(fetchProduct.pending, (state) => {
                 state.loading = true;
@@ -45,23 +68,20 @@ export const pruductDetails = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-            // search product by name
-            .addCase(searchProduct.pending,(state,action)=>{
-                state.loading=true
+            // handle loginFetch
+            .addCase(loginFetch.pending, (state) => {
+                state.loading = true;
             })
-            .addCase(searchProduct.fulfilled,(state,action)=>{
-                state.products=action.payload;
+            .addCase(loginFetch.fulfilled, (state, action) => {
+                state.loading = false;
+                state.Token_login = action.payload.token; // Assuming the login response is stored in state.login
             })
-            .addCase(searchProduct.rejected,(state,action)=>{
-                state.loading=false
-                state.error = "Please Try Again";
-            })
-
-           
-            
-            
-
-
+            .addCase(loginFetch.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
     },
-})
-export default pruductDetails.reducer;
+});
+
+export const { clearTokenLogin } = productDetails.actions; // Export the clearTokenLogin action creator
+export default productDetails.reducer;

@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchProduct, searchProduct } from '../../features/productSlice'
+import { fetchProduct } from '../../features/productSlice'
 import { Link } from 'react-router-dom'
+import Login from './Login'
 
 function Home() {
-  const { loading, error, products } = useSelector(state => state.app)
+  const { loading, error, products, Token_login } = useSelector(state => state.app)
   const dispatch = useDispatch()
   const [search, setSearch] = useState()
 
-  console.log(search);
+
 
   useEffect(() => {
-    dispatch(fetchProduct(search))
 
+    dispatch(fetchProduct(search))
   }, [dispatch, search])
   if (loading) {
     return (
       <h2 className='text-center text-2xl  mt-[5rem] h-screen '>Loading.....</h2>
     )
   }
-
-  return (
-    <>
+  if (Token_login) {
+    return (
+      <>
       <div>
+        {/* error message */}
+
 
         <div className=' fixed w-full mt-[-80px]'>
           <div className='md:w-1/2 lg:w-1/2 xl:w-1/2 sm:w-[90%] mx-auto'>
@@ -34,12 +37,28 @@ function Home() {
               className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
             >
               {/* Add your category options here */}
-              <option value="">ALL Item</option>
+              <option value="/">ALL Item</option>
               <option value="/category/smartphones">Smart Phone</option>
               <option value="/category/laptops">Laptop</option>
               <option value="/category/fragrances">Perfume</option>
               <option value="/category/skincare">Skin Care</option>
+              <option value="/category/groceries">Grocery Item</option>
+              <option value="/category/home-decoration">Home Decoration</option>
+              <option value="/category/furniture">Furniture</option>
+              <option value="/category/tops">Tops</option>
+              <option value="/category/womens-dresses">Womens Dress</option>
+              <option value="/category/womens-shoes">Womens Shoes</option>
+              <option value="/category/mens-shirts">Mens Shirt</option>
+              <option value="/category/mens-shoes">Men Shoes</option>
+              <option value="/category/mens-watchess">Mens Watch</option>
+              <option value="/category/womens-watches">Womens Watches</option>
+              <option value="/category/womens-bags">Womens Bag</option>
+              <option value="/category/womens-jewellery">Womens Jewellery</option>
+              <option value="/category/sunglasses">Sunglas</option>
+              <option value="/category/motorcycle">Motorcycle</option>
+              <option value="/category/lighting">Light</option>
               {/* Add other categories as needed */}
+
             </select>
 
           </div>
@@ -89,14 +108,16 @@ function Home() {
           </div>
         </div>
       </div>
-
-
-
+      </>
+    );
+  } else {
+    return (
+    <>
+    <Login/>
     </>
-
-
-
-  )
+    );
+  }
+ 
 }
 
 export default Home
