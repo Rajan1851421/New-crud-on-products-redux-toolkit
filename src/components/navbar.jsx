@@ -10,12 +10,17 @@ const Navbar = () => {
   const Token_login = useSelector(state => state.app.Token_login);
 
   const toggleNavbar = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(prevState => !prevState);
   };
 
   const handleLogout = () => {
     dispatch(clearTokenLogin());
     navigate('/login');
+    setIsOpen(false); // Close the navbar after logout
+  };
+
+  const handleMenuItemClick = () => {
+    setIsOpen(false); // Close the navbar after clicking a menu item
   };
 
   return (
@@ -27,14 +32,14 @@ const Navbar = () => {
               <span className="text-white text-xl font-semibold">Rajan Prajapati</span>
             </div>
             <div className="hidden md:flex items-center">
-              <Link to="/shopping" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Shopping</Link>
-              <Link to="/about" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</Link>
-              <Link to="/service" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Services</Link>
-              <Link to="/contactus" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</Link>
+              <Link to="/shopping" onClick={handleMenuItemClick} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Shopping</Link>
+              <Link to="/about" onClick={handleMenuItemClick} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</Link>
+              <Link to="/service" onClick={handleMenuItemClick} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Services</Link>
+              <Link to="/contact" onClick={handleMenuItemClick} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</Link>
               {Token_login ? (
                 <Link to="" onClick={handleLogout} className="text-gray-300 bg-red-700 hover:text-white px-3 py-2 rounded-md text-sm border font-medium">Logout</Link>
               ) : (
-                <Link to="/" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm border font-medium">Login</Link>
+                <Link to="/" onClick={handleMenuItemClick} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm border font-medium">Login</Link>
               )}
             </div>
             <div className="md:hidden flex items-center">
@@ -49,19 +54,19 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-        {isOpen && (
-          <div className="md:hidden mt-2 ease-in-out ">
-            <Link to="/shopping" className="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Shopping</Link>
-            <Link to="/about" className="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">About</Link>
-            <Link to="/service" className="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Services</Link>
-            <Link to="/contact" className="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Contact</Link>
+        <div className={`md:hidden ${isOpen ? 'block' : 'hidden'} mt-2`}>
+          <div className="flex flex-col items-end">
+            <Link to="/shopping" onClick={handleMenuItemClick} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Shopping</Link>
+            <Link to="/about" onClick={handleMenuItemClick} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</Link>
+            <Link to="/service" onClick={handleMenuItemClick} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Services</Link>
+            <Link to="/contact" onClick={handleMenuItemClick} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</Link>
             {Token_login ? (
-              <Link to="/logout" className="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Logout</Link>
+              <Link to="/logout" onClick={handleLogout} className="text-gray-300 bg-red-700 hover:text-white px-3 py-2 rounded-md text-sm border font-medium">Logout</Link>
             ) : (
-              <Link to="/" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm border font-medium">Login</Link>
+              <Link to="/" onClick={handleMenuItemClick} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm border font-medium">Login</Link>
             )}
           </div>
-        )}
+        </div>
       </nav>
     </div>
   );

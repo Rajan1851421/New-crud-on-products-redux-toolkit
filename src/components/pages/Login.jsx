@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginFetch } from '../../features/productSlice';
+import { fetchProduct, loginFetch } from '../../features/productSlice';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
@@ -20,6 +20,7 @@ function Login() {
     };
 
     useEffect(() => {
+        dispatch(fetchProduct())
         if (Token_login) {
             navigate("/shopping");
         } else {
@@ -29,7 +30,7 @@ function Login() {
 
     return (
         <div>
-            <div className="bg-cover bg-center bg-fixed" style={{ backgroundImage: `url('https://picsum.photos/1920/1080')` }}>
+            <div className="bg-cover bg-center bg-fixed bg-red-200 " >
                 <div className="h-screen flex justify-center items-center">
                     <div className="bg-white mx-4 p-8 rounded shadow-md w-full md:w-1/2 lg:w-1/3">
                         <h1 className="text-3xl font-bold mb-8 text-center">Login</h1>

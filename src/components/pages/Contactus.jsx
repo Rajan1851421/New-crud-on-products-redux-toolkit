@@ -1,118 +1,22 @@
-import React from 'react'
+import React from 'react';
 
-function Contactus() {
-  return (
-    <div className='mt-[5rem] container mx-auto '>
-
-
-      <div class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-        <div class="flex items-center justify-between mb-4">
-          <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest Customers</h5>
-          <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-            View all
-          </a>
+const ContactUs = () => {
+    return (
+        <div className="container mx-auto p-4">
+            <h1 className="text-3xl font-bold mb-4">Contact Us</h1>
+            <div className="bg-gray-200 p-4 rounded-md overflow-auto" style={{ maxHeight: '400px' }}>
+                <p className="text-lg">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel ipsum vel leo fermentum sagittis. 
+                    Cras eget nisi vitae nisi pharetra dictum. Proin id vehicula eros, ac maximus elit. 
+                    Integer in condimentum turpis, in fermentum nisl. Phasellus mollis, mi nec interdum pulvinar, 
+                    libero mauris efficitur mi, vel condimentum lorem lorem id turpis. Nulla facilisi. 
+                    Sed in bibendum justo, et fermentum eros. Cras non libero at magna rhoncus tristique a et libero. 
+                    Cras ut nulla sit amet sapien eleifend posuere.
+                </p>
+                {/* Add more content here */}
+            </div>
         </div>
-        <div class="flow-root">
-          <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-            <li class="py-3 sm:py-4">
-              <div class="flex items-center">
-                <div class="flex-shrink-0">
-                  <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Neil image"/>
-                </div>
-                <div class="flex-1 min-w-0 ms-4">
-                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                    Neil Sims
-                  </p>
-                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                    email@windster.com
-                  </p>
-                </div>
-                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                  $320
-                </div>
-              </div>
-            </li>
-            <li class="py-3 sm:py-4">
-              <div class="flex items-center ">
-                <div class="flex-shrink-0">
-                  <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="Bonnie image"/>
-                </div>
-                <div class="flex-1 min-w-0 ms-4">
-                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                    Bonnie Green
-                  </p>
-                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                    email@windster.com
-                  </p>
-                </div>
-                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                  $3467
-                </div>
-              </div>
-            </li>
-            <li class="py-3 sm:py-4">
-              <div class="flex items-center">
-                <div class="flex-shrink-0">
-                  <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-2.jpg" alt="Michael image"/>
-                </div>
-                <div class="flex-1 min-w-0 ms-4">
-                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                    Michael Gough
-                  </p>
-                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                    email@windster.com
-                  </p>
-                </div>
-                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                  $67
-                </div>
-              </div>
-            </li>
-            <li class="py-3 sm:py-4">
-              <div class="flex items-center ">
-                <div class="flex-shrink-0">
-                  <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-4.jpg" alt="Lana image"/>
-                </div>
-                <div class="flex-1 min-w-0 ms-4">
-                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                    Lana Byrd
-                  </p>
-                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                    email@windster.com
-                  </p>
-                </div>
-                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                  $367
-                </div>
-              </div>
-            </li>
-            <li class="pt-3 pb-0 sm:pt-4">
-              <div class="flex items-center ">
-                <div class="flex-shrink-0">
-                  <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="Thomas image"/>
-                </div>
-                <div class="flex-1 min-w-0 ms-4">
-                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                    Thomes Lean
-                  </p>
-                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                    email@windster.com
-                  </p>
-                </div>
-                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                  $2367
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      
+    );
+};
 
-
-    </div>
-
-  )
-}
-
-export default Contactus
+export default ContactUs;

@@ -13,7 +13,7 @@ function router() {
                 <Route path='/' element={<Login />} />
                 <Route path='/about' element={<About />} />
                 <Route path='/service' element={<Service />} />
-                <Route path='/contactus' element={<Contactus />} />
+                <Route path='/contact' element={<Contactus />} />
                 <Route path='/shopping' element={<Home/>}/>
             </Routes>
 

@@ -4,12 +4,10 @@ import axios from "axios";
 // Define the async thunk for fetching products
 export const fetchProduct = createAsyncThunk("fetchProduct", async (search, { rejectWithValue }) => {
     try {
-        // Check if search is defined and not empty before making the request
         const url = search ? `https://dummyjson.com/products${search}` : 'https://dummyjson.com/products';
         const response = await axios.get(url);
         return response.data.products;
     } catch (error) {
-        // Return only the relevant error information
         return rejectWithValue(error.message);
     }
 });
@@ -37,44 +35,38 @@ export const loginFetch = createAsyncThunk("loginFetch", async ({ username, pass
 });
 
 // Define the product slice
-export const productDetails = createSlice({
-    name: 'productdetails',
+export const productSlice = createSlice({
+    name: 'product',
     initialState: {
-        products: [],        
+        products: [],
         Token_login: null,
-        buy: [],
-        cart: [],
         loading: false,
         error: null
     },
     reducers: {
         clearTokenLogin: (state) => {
             state.Token_login = null;
-            console.log("Reducers:",state.Token_login);
         }
     },
     extraReducers: (builder) => {
         builder
-            // handle fetch product
             .addCase(fetchProduct.pending, (state) => {
                 state.loading = true;
             })
             .addCase(fetchProduct.fulfilled, (state, action) => {
                 state.loading = false;
                 state.products = action.payload;
-                console.log(action.payload);
             })
             .addCase(fetchProduct.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
-            // handle loginFetch
             .addCase(loginFetch.pending, (state) => {
                 state.loading = true;
             })
             .addCase(loginFetch.fulfilled, (state, action) => {
                 state.loading = false;
-                state.Token_login = action.payload.token; // Assuming the login response is stored in state.login
+                state.Token_login = action.payload.token;
             })
             .addCase(loginFetch.rejected, (state, action) => {
                 state.loading = false;
@@ -83,5 +75,5 @@ export const productDetails = createSlice({
     },
 });
 
-export const { clearTokenLogin } = productDetails.actions; // Export the clearTokenLogin action creator
-export default productDetails.reducer;
+export const { clearTokenLogin } = productSlice.actions;
+export default productSlice.reducer;
