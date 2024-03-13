@@ -63,6 +63,17 @@ export const selectAddress = createAsyncThunk('selectAddress',async(_,{rejectWit
     }
 })
 
+export const selectedAddress = createAsyncThunk('selectedAddress',async(id,{rejectWithValue})=>{
+    try {
+        const response = await axios.get(`https://dummyapi.online/api/users/${id}`)
+        return response
+    } catch (error) {
+        return rejectWithValue(error.message)
+    }
+})
+    
+
+
 // Define the product slice
 export const productSlice = createSlice({
     name: 'product',
@@ -71,6 +82,7 @@ export const productSlice = createSlice({
         Token_login: null,
         loading: false,
         address:[],
+        chosseAddress:[],
         error: null,
         cart: [], // Initialize cart state
         orders:[],
@@ -142,9 +154,23 @@ export const productSlice = createSlice({
                 state.loading=false;
                 state.address=action.payload
             })
-            .addCase(selectAddress.rejected,(state,action)=>{
+            .addCase(selectAddress.rejected,(state)=>{
                 state.loading=false
                 state.status="Please Try Again Later"
+            })
+
+            // selected address
+            .addCase(selectedAddress.pending,(state)=>{
+                state.loading=true
+
+            })
+            .addCase(selectedAddress.fulfilled,(state,action)=>{
+                state.loading=false
+                state.chosseAddress=action.payload
+            })
+            .addCase(selectedAddress.rejected,(state)=>{
+                state.loading=false
+                state.status="Plaese try Agian later"
             })
 
     },
