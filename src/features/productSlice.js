@@ -34,6 +34,35 @@ export const loginFetch = createAsyncThunk("loginFetch", async ({ username, pass
     }
 });
 
+export const addToCart = createAsyncThunk("addToCart",async(id,{rejectWithValue})=>{
+    try {
+        const response = await axios.get(`https://dummyjson.com/products/${id}`)
+        return response
+    } catch (error) {
+        return rejectWithValue(error.message)
+        
+    }
+})
+
+export const buyNow = createAsyncThunk ('buyNow',async(id,{rejectWithValue})=>{
+    try {
+        const response = await axios.get(`https://dummyjson.com/products/${id}`)
+        return response
+    } catch (error) {
+        return rejectWithValue(error.message)
+    }
+})
+
+export const selectAddress = createAsyncThunk('selectAddress',async(_,{rejectWithValue})=>{
+    try {
+        const response = await axios.get(`https://dummyapi.online/api/users`)
+        return response
+        
+    } catch (error) {
+        return rejectWithValue(error.message)
+    }
+})
+
 // Define the product slice
 export const productSlice = createSlice({
     name: 'product',
@@ -41,12 +70,17 @@ export const productSlice = createSlice({
         products: [],
         Token_login: null,
         loading: false,
-        error: null
+        address:[],
+        error: null,
+        cart: [], // Initialize cart state
+        orders:[],
+        status: null,
     },
     reducers: {
         clearTokenLogin: (state) => {
             state.Token_login = null;
         }
+       
     },
     extraReducers: (builder) => {
         builder
@@ -71,9 +105,51 @@ export const productSlice = createSlice({
             .addCase(loginFetch.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-            });
+            })
+
+            // add to cart functionality
+            .addCase(addToCart.pending,(state)=>{
+                state.loading=true
+            })
+            .addCase(addToCart.fulfilled, (state, action) => {
+                state.loading = false;
+                state.cart.push(action.payload);
+                state.status="Item Added !!!!! "
+                console.log(state.cart.length);
+            })
+            
+            .addCase(addToCart.rejected,(state)=>{
+                state.status='Please Try Again'
+            })
+
+            // add buy now functionallity
+            .addCase(buyNow.pending,(state)=>{
+                state.loading=true;
+            })
+            .addCase(buyNow.fulfilled,(state,action)=>{
+                state.loading=false;
+                state.orders.push(action.payload)
+            })
+            .addCase(buyNow.rejected,(state)=>{
+                state.error='Something Wrong Try Again'
+            })
+
+            // address select
+            .addCase(selectAddress.pending,(state)=>{
+                state.loading=true
+            })
+            .addCase(selectAddress.fulfilled,(state,action)=>{
+                state.loading=false;
+                state.address=action.payload
+            })
+            .addCase(selectAddress.rejected,(state,action)=>{
+                state.loading=false
+                state.status="Please Try Again Later"
+            })
+
     },
 });
 
 export const { clearTokenLogin } = productSlice.actions;
+
 export default productSlice.reducer;

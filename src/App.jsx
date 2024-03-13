@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import Navbar from './components/navbar';
 import Router from './components/Router'
 
@@ -6,6 +6,7 @@ import Router from './components/Router'
 function App() {
   return (
     <>   
+    
       <Navbar/>
       <Router/>
   

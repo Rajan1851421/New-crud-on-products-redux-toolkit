@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProduct, loginFetch } from '../../features/productSlice';
 import { useNavigate } from 'react-router-dom';
+import { IoIosSend } from "react-icons/io";
 
 function Login() {
     const [userid, setUserId] = useState('kminchelle');
@@ -32,7 +33,7 @@ function Login() {
         <div>
             <div className="bg-cover bg-center bg-fixed bg-red-200 " >
                 <div className="h-screen flex justify-center items-center">
-                    <div className="bg-white mx-4 p-8 rounded shadow-md w-full md:w-1/2 lg:w-1/3">
+                    <div className="bg-gradient-to-r from-sky-500 to-indigo-500 mx-4 p-8 rounded shadow-md w-full md:w-1/2 lg:w-1/3 shadow-orange-500 ">
                         <h1 className="text-3xl font-bold mb-8 text-center">Login</h1>
                         <form>
                             <div className="mb-4">
@@ -61,13 +62,15 @@ function Login() {
                             </div>
                             <div className="mb-6">
                                 <button
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    className="bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline flex items-center"
                                     type="button"
-                                    onClick={handleLogin} 
+                                    onClick={handleLogin}
                                     disabled={isLoading} // Disable button when loading
                                 >
-                                    {isLoading ? 'Please Wait...' : 'Login'} {/* Display different text based on loading state */}
+                                    {isLoading ? 'Please Wait...' : 'Login '}
+                                    <IoIosSend className="ml-2" />
                                 </button>
+
                             </div>
                         </form>
                     </div>
