@@ -6,10 +6,10 @@ import AddressModal from "./AddressModal";
 
 function Cart() {
  
-  const { cart,  address } = useSelector((state) => state.app);
+  const { cart } = useSelector((state) => state.app);
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
 
-  console.log("Address:", address);
+  
 
   // Calculate total items and total price
   let totalItems = 0;
