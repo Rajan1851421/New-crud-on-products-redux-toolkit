@@ -1,10 +1,12 @@
 import  { useState } from "react";
-import {  useSelector } from "react-redux";
+import {  useDispatch, useSelector } from "react-redux";
 // import { Link } from "react-router-dom";
 
 import AddressModal from "./AddressModal";
+import { removeCartItem } from "../../features/productSlice";
 
 function Cart() {
+  const dispatch = useDispatch()
  
   const { cart } = useSelector((state) => state.app);
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
@@ -20,6 +22,10 @@ function Cart() {
       totalItems++;
       totalPrice += ele.data.price;
     });
+  }
+  const hanleRemove=(id)=>{
+    dispatch(removeCartItem(id))
+    console.log("Remove:",id);
   }
 
   const handleCheckout = () => {
@@ -55,11 +61,11 @@ function Cart() {
                       {`Rs. ${ele.data.price}`}
                     </p>
                     <div className="flex gap-8">
-                      <button
+                      <button onClick={() => hanleRemove(ele.data.id)}
                         className="ml-auto flex items-center gap-1 sm:text-lg border
                                          border-gray-300 px-3 py-1 rounded-full hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500"
                       >
-                        <span>Remove</span>
+                        <span >Remove</span>
                       </button>
                     </div>
                   </div>
