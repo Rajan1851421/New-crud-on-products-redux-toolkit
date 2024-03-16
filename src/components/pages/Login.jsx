@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct, loginFetch } from "../../features/productSlice";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +22,7 @@ function Login() {
   useEffect(() => {
     dispatch(fetchProduct());
     if (Token_login) {
-      navigate("/shopping");
+      navigate("/order");
     } else {
       navigate("/");
     }

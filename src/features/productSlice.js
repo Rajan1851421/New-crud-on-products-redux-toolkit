@@ -43,16 +43,18 @@ export const loginFetch = createAsyncThunk(
 );
 
 export const addToCart = createAsyncThunk(
-  "addToCart",
-  async (id, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(`https://dummyjson.com/products/${id}`);
-      return response;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  },
-);
+    "addToCart",
+    async (id, { rejectWithValue }) => {
+      try {
+        const response = await axios.get(`https://dummyjson.com/products/${id}`);
+        const productData = response; // Extract necessary data from the response
+        return productData; // Return only the necessary data
+      } catch (error) {
+        return rejectWithValue(error.message);
+      }
+    },
+  );
+  
 
 export const buyNow = createAsyncThunk(
   "buyNow",
@@ -93,16 +95,19 @@ export const selectedAddress = createAsyncThunk(
 );
 
 export const removeCartItem = createAsyncThunk(
-  "removeCartItem",
-  async (id, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(`https://dummyjson.com/products/${id}`);
-      return response;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  },
-);
+    "removeCartItem",
+    async (id, { rejectWithValue }) => {
+     try {
+        const response = await axios.delete(`https://dummyjson.com/products/${id}`)
+        return response
+     } catch (error) {
+        return rejectWithValue(error.message)
+        
+     }
+    },
+  );
+  
+  
 
 // Define the product slice
 export const productSlice = createSlice({
@@ -111,6 +116,7 @@ export const productSlice = createSlice({
     products: [],
     Token_login: null,
     loading: false,
+    waiting:false,
     address: [],
     chosseAddress: [],
     error: null,
@@ -150,14 +156,15 @@ export const productSlice = createSlice({
 
       // add to cart functionality
       .addCase(addToCart.pending, (state) => {
-        state.loading = true;
+        state.waiting = true;
       })
       .addCase(addToCart.fulfilled, (state, action) => {
-        state.loading = false;
-        state.cart.push(action.payload);
+        state.waiting = false;
+        const productData = action.payload; // Extract necessary data from the response
+        state.cart.push(productData); // Store only the necessary data in the cart state
         state.status = "Item Added !!!!! ";
-        console.log(state.cart.length);
       })
+      
 
       .addCase(addToCart.rejected, (state) => {
         state.status = "Please Try Again";
@@ -206,14 +213,19 @@ export const productSlice = createSlice({
       })
       .addCase(removeCartItem.fulfilled, (state, action) => {
         state.loading = false;
-        // Filter out the item that matches the payload ID
-        state.cart = state.cart.filter(item => item.id !== action.payload.id);
+        const { id } = action.payload; // Extract necessary data from the payload
+        if (id) {
+          // Remove the item from the cart by filtering it out
+          state.cart = state.cart.filter((item) => item.id !== id);
+        }
+        state.status = "Item removed successfully";
       })
       
       
+
       .addCase(removeCartItem.rejected, (state) => {
         state.loading = false;
-        state.status="plaese try again later"
+        state.status = "plaese try again later";
       });
   },
 });

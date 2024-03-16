@@ -1,35 +1,38 @@
-import  { useState } from "react";
-import {  useDispatch, useSelector } from "react-redux";
+import {  useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // import { Link } from "react-router-dom";
 
 import AddressModal from "./AddressModal";
-import { removeCartItem } from "../../features/productSlice";
+import {  removeCartItem } from "../../features/productSlice";
 
 function Cart() {
   const dispatch = useDispatch()
- 
   const { cart } = useSelector((state) => state.app);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
 
+  useEffect(()=>{
+
+  },[])
+
+ 
   // Calculate total items and total price
   let totalItems = 0;
   let totalPrice = 0;
 
-  if (cart) {
+  if (cart && cart.length > 0) {
     cart.forEach((ele) => {
       totalItems++;
       totalPrice += ele.data.price;
     });
   }
-  const hanleRemove=(id)=>{
+  
+  const hanleRemove = (id) => {
     dispatch(removeCartItem(id))
-    console.log("Remove:",id);
+    console.log("Remove:", id);
   }
 
   const handleCheckout = () => {
-    
     setIsModalOpen((prev) => !prev); // Open the modal when proceeding to checkout
   };
 

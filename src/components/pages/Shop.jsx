@@ -1,19 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, buyNow, fetchProduct } from "../../features/productSlice";
 
 function Shop() {
-  const { loading, products, status } = useSelector((state) => state.app);
+  const { products, loading,waiting } = useSelector((state) => state.app);
   const dispatch = useDispatch();
   const [search, setSearch] = useState();
+  const [loadingButtons, setLoadingButtons] = useState({});
+
+
 
   useEffect(() => {
     dispatch(fetchProduct(search));
-  }, [dispatch, search]);
+  }, []);
 
   const handleAddToCart = (id) => {
-    dispatch(addToCart(id));
-    console.log("Crat:", id);
+    setLoadingButtons((prevState) => ({ ...prevState, [id]: true })); // Set loading state for clicked button
+    dispatch(addToCart(id)).then(() => {
+      setLoadingButtons((prevState) => ({ ...prevState, [id]: false })); // Reset loading state after action completes
+    });
+    console.log("Cart:", id);
   };
 
   const handleBuyNow = (id) => {
@@ -21,19 +27,17 @@ function Shop() {
     console.log("Buy:", id);
   };
 
-  if (loading) {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center backdrop-filter backdrop-blur-sm">
-        <h2 className="text-2xl text-center">Loading...</h2>
-      </div>
-    );
-  }
+
 
   return (
     <div>
-      <div>
-        {/* error message */}
 
+      {loading ? (
+        <div className="fixed inset-0 flex items-center justify-center backdrop-filter backdrop-blur-sm">
+          <h2 className="text-2xl text-center">Loading...</h2>
+        </div>
+      ) : (
+        <div>  
         <div className=" fixed w-full mt-[-80px]">
           <div className="md:w-1/2 lg:w-1/2 xl:w-1/2 sm:w-[90%] mx-auto">
             <select
@@ -114,15 +118,16 @@ function Shop() {
                         <div className="flex justify-between my-2">
                           <button
                             onClick={() => handleBuyNow(item.id)}
-                            className="inline-block px-4 py-2 text-white bg-[#365314] rounded-full hover:bg-blue-700"
+                            className="inline-block px-4  text-white bg-[#365314] rounded-full hover:bg-blue-700 h-8 w-[110px]"
                           >
                             Buy now
                           </button>
                           <button
                             onClick={() => handleAddToCart(item.id)}
-                            className="inline-block px-3 py-2 text-white bg-[#701A75] rounded-full hover:bg-blue-700"
+                            className="inline-block px-3  text-white bg-[#701A75] rounded-full hover:bg-blue-700 h-8 w-[110px] "
+                            disabled={loadingButtons[item.id] || waiting} // Disable button while action is processing or loading
                           >
-                            Add to cart
+                            {loadingButtons[item.id] ? "Wait.  .  ." : "Add to cart"}
                           </button>
                         </div>
                       </div>
@@ -133,6 +138,10 @@ function Shop() {
           </div>
         </div>
       </div>
+      )}
+
+
+      
     </div>
   );
 }
