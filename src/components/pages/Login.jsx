@@ -24,7 +24,7 @@ function Login() {
     if (Token_login) {
       navigate("/order");
     } else {
-      navigate("/");
+      navigate("/login");
     }
   }, [Token_login, navigate]);
 

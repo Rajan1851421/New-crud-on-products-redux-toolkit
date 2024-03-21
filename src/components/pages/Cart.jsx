@@ -1,21 +1,21 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { Link } from "react-router-dom";
 
 import AddressModal from "./AddressModal";
-import {  removeCartItem } from "../../features/productSlice";
+import { removeCartItem } from "../../features/productSlice";
 
 function Cart() {
   const dispatch = useDispatch()
   const { cart } = useSelector((state) => state.app);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
 
-  useEffect(()=>{
 
-  },[])
+  useEffect(() => {
 
- 
+  }, [])
+
+
   // Calculate total items and total price
   let totalItems = 0;
   let totalPrice = 0;
@@ -26,7 +26,7 @@ function Cart() {
       totalPrice += ele.data.price;
     });
   }
-  
+
   const hanleRemove = (id) => {
     dispatch(removeCartItem(id))
     console.log("Remove:", id);
@@ -41,6 +41,13 @@ function Cart() {
       <div className="mt-[4rem] container">
         <div className="flex justify-between mx-4 ">
           {/* 1st part */}
+
+
+
+
+
+
+
           <div className="flex flex-wrap flex-1 mt-6">
             {cart &&
               cart.map((ele, index) => (
@@ -49,16 +56,19 @@ function Cart() {
                   key={index}
                   className="bg-white border  border-gray-200 p-2 w-80 max-w-3xl sm:w-full sm:p-4 h-45 shadow-lg flex flex-col sm:flex-row gap-5 select-none"
                 >
-                  <div
-                    style={{ backgroundImage: `url(${ele.data.thumbnail})` }}
-                    className="h-80px sm:h-full sm:w-72 bg-gray-100 bg-center bg-cover"
-                  ></div>
+                  <div>
+                  <img
+                      src={ele.data.thumbnail}
+                      alt="product image"
+                      className="w-14 rounded"
+                    />
+                  </div>
                   <div className="flex sm:flex-1 flex-col gap-2 p-1">
                     <h1 className="text-lg sm:text-xl font-semibold text-gray-600">
                       {ele.data.title}
                     </h1>
                     <p className="text-gray-500 text-sm sm:text-base line-clamp-3">
-                      {ele.data.description}
+                      {ele.data.description.slice(0,20)}
                     </p>
                     <p className="text-gray-500 text-sm sm:text-base line-clamp-3">
                       {`Rs. ${ele.data.price}`}
@@ -72,6 +82,7 @@ function Cart() {
                       </button>
                     </div>
                   </div>
+                  
                 </div>
               ))}
             {/* Button added below the cards */}
